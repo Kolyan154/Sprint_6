@@ -36,4 +36,4 @@ class MainPage(BasePage):
             cookie_button = self.find_element_safe(MainPageLocators.COOKIE_BUTTON)
             if cookie_button:
                 cookie_button.click()
-                self.wait(1)  # Небольшая пауза после закрытия
+                self.wait(1)  
