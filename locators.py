@@ -101,6 +101,11 @@ class OrderPageLocators:
     SUCCESS_MESSAGE = (By.XPATH, "//div[contains(text(), 'Заказ оформлен')]")
     ORDER_NUMBER = (By.XPATH, "//div[contains(text(), 'Номер заказа')]")
 
+    # Локаторы для работы с календарем
+    PAGE_HEADER = (By.XPATH, "//div[contains(@class, 'Order_Header')]")
+    PAGE_TITLE = (By.XPATH, "//div[contains(@class, 'Order_Title')]")
+    ANY_VISIBLE_ELEMENT = (By.XPATH, "//div[@class='App_App__15LM-']")
+
 
 class OrderStatusLocators:
     """Локаторы для проверки статуса заказа"""

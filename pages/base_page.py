@@ -180,6 +180,45 @@ class BasePage:
             return True
         except TimeoutException:
             return False
+        
+    @allure.step("Ожидание исчезновения элемента")
+    def wait_for_element_invisible(self, locator, timeout=None):
+        """
+        Ожидание исчезновения элемента со страницы.
+    
+        :param locator: Кортеж (By, selector) для поиска элемента
+        :param timeout: Максимальное время ожидания в секундах
+        :return: True если элемент исчез, иначе False
+        """
+        timeout = timeout or self.timeout
+        try:
+            self.wait_for_condition(
+                EC.invisibility_of_element_located(locator),
+                timeout
+        )
+            return True
+        except TimeoutException:
+            return False
+
+    @allure.step("Ожидание текста в элементе")
+    def wait_for_text_in_element(self, locator, text, timeout=None):
+        """
+        Ожидание появления текста в элементе.
+    
+        :param locator: Кортеж (By, selector) для поиска элемента
+        :param text: Текст для ожидания
+        :param timeout: Максимальное время ожидания в секундах
+        :return: True если текст появился, иначе False
+        """
+        timeout = timeout or self.timeout
+        try:
+            self.wait_for_condition(
+                EC.text_to_be_present_in_element(locator, text),
+                timeout
+        )
+            return True
+        except TimeoutException:
+            return False
 
     # --- Методы поиска элементов ---
 
@@ -370,33 +409,3 @@ class BasePage:
         main_window = self.driver.window_handles[0]
         self.driver.close()
         self.driver.switch_to.window(main_window)
-
-    # --- Утилитные методы ---
-
-    @allure.step("Создание скриншота")
-    def take_screenshot(self, filename=None):
-        """
-        Создание скриншота текуной страницы.
-        
-        :param filename: Имя файла для сохранения
-        :return: Путь к сохраненному скриншоту
-        """
-        if filename is None:
-            filename = f"screenshot_{int(time.time())}.png"
-
-        self.driver.save_screenshot(filename)
-        return filename
-
-    @allure.step("Ожидание")
-    def wait(self, seconds):
-        """
-        Явное ожидание.
-        
-        :param seconds: Количество секунд для ожидания
-        """
-        time.sleep(seconds)
-
-    @allure.step("Получение исходного кода страницы")
-    def get_page_source(self):
-        """Получение исходного кода страницы."""
-        return self.driver.page_source
